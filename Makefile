@@ -1,0 +1,20 @@
+CC=gcc
+
+SH_CFLAGS=-shared -ldl -fPIC
+
+SOURCES=lmhack.c
+TESTSOURCE=lmtest.c
+
+SHAREDLIB=lmhack.so
+TESTTARGET=lmtest
+
+all: $(SHAREDLIB) $(TESTTARGET) $(TESTSOURCE) $(SOURCES)
+
+$(TESTTARGET): $(TESTSOURCE)
+	$(CC) $(TESTSOURCE) -o $@
+
+$(SHAREDLIB): $(SOURCES)
+	$(CC) $(SH_CFLAGS) $(SOURCES) -o $@
+
+clean:
+	rm $(SHAREDLIB) $(TESTTARGET)
