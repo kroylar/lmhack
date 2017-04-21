@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include <dlfcn.h>
 
-#define RESTOFPASSWD "::::::\n"
 #define TMPNAME "/tmp/lmspoof-"
 #define ETCPASSWD "/etc/passwd"
 
@@ -24,9 +23,8 @@ void __attribute__ ((constructor)) init(void) {
     namelen = strlen(username);
 
     // create empty passwd entry using username
-    passwd_data = (char*) malloc(namelen + sizeof(RESTOFPASSWD));
+    passwd_data = (char*) malloc(namelen);
     strcpy(passwd_data, username);
-    strcat(passwd_data, RESTOFPASSWD);
 
     // generate fake passwd filename
     passwd_file = (char*) malloc(namelen + sizeof(TMPNAME));
@@ -43,7 +41,7 @@ void __attribute__ ((constructor)) init(void) {
 }
 
 FILE *fopen(const char *path, const char *modes) {
-    if ((strlen(path) == sizeof(ETCPASSWD)) && (!strncmp(ETCPASSWD, path, strlen(path)))) {
+    if ((strlen(path) == sizeof(ETCPASSWD) - 1) && !strncmp(ETCPASSWD, path, strlen(path))) {
         return fopen_in(passwd_file, modes);
     } else
         return fopen_in(path, modes);
