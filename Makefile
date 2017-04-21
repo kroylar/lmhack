@@ -3,18 +3,17 @@ CC=gcc
 SH_CFLAGS=-shared -ldl -fPIC
 
 SOURCES=lmhack.c
-TESTSOURCE=lmtest.c
 
 SHAREDLIB=lmhack.so
-TESTTARGET=lmtest
+SHARED32LIB=lmhack32.so
 
-all: $(SHAREDLIB) $(TESTTARGET) $(TESTSOURCE) $(SOURCES)
-
-$(TESTTARGET): $(TESTSOURCE)
-	$(CC) $(TESTSOURCE) -o $@
+all: $(SHAREDLIB) $(SHARED32LIB) $(SOURCES)
 
 $(SHAREDLIB): $(SOURCES)
 	$(CC) $(SH_CFLAGS) $(SOURCES) -o $@
 
+$(SHARED32LIB): $(SOURCES)
+	$(CC) $(SH_CFLAGS) -m32 $(SOURCES) -o $@
+
 clean:
-	rm $(SHAREDLIB) $(TESTTARGET)
+	rm $(SHAREDLIB)
