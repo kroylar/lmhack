@@ -16,4 +16,4 @@ $(SHARED32LIB): $(SOURCES)
 	$(CC) $(SH_CFLAGS) -m32 $(SOURCES) -o $@
 
 clean:
-	rm $(SHAREDLIB)
+	rm -f $(SHAREDLIB) $(SHARED32LIB)
