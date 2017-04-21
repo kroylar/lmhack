@@ -3,7 +3,7 @@ License Manager username switcher
 
 ## What
 
-This software creates **LD_PRELOAD**able libraries to use when checking out licenses from Flexera license servers. These libraries will hook the *fopen* linux syscall, and if the path being opened matches */etc/passwd* will instead serve up a fake *passwd* file that only contains your username. 
+This software creates **LD_PRELOAD**able libraries to use when checking out licenses from Flexera license servers. These libraries will hook the *fopen* linux syscall, and if the path being opened matches */etc/passwd* will instead serve up a fake *passwd* file that only contains your username. This fake password file is stored in */tmp/lmspoof-\<username\>*, so it will work on a multi-user system.
 
 ## Why
 The Flexera Software Licences Manager application that is used on a variety of proprietary applications has an extremely simple method of determining a user's username. This involves finding the UID of the user and greping */etc/passwd* for the matching username. If no matching uid/username is found, it will simply use the last username in the list.
