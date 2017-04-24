@@ -29,3 +29,7 @@ Note that we renamed the 32bit binary to *lmhack.so* as to make use of dynamic l
 ## Use
 
 Simply use `LD_PRELOAD=lmhack.so` in your environment. You can either use it on the command line along with the program you are calling, or export it for all programs to use. Once the *fopen* symbol has been first hijacked, the only overhead will be 1 or 2 if statements, and any requests not accessing */etc/passwd* will be passed along to the system *fopen*.
+
+Keep in mind that the architecture will be chosen depending upon the program that it is called with. In the case of *make* which calls child programs of differing architectures, a **SEGFAULT** will occur. So when running with *make*, explicitly set the `LD_PRELOAD` equal to the absolute path of the *lmhack.so* binary that shares the architecture you are targeting, ie:
+
+`LD_PRELOAD=/usr/lib32/lmhac.so make <target>`
